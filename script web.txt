@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <title>Lokasi Bangunan Pondok Pesantren Al-Munawwir</title>
+
+  <!-- Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f8f9fa;
+    }
+
+    .navbar {
+      background: #146b55;
+    }
+
+    .navbar-brand {
+      color: white;
+      font-weight: bold;
+    }
+
+    .navbar-nav .nav-link {
+      color: white !important;
+    }
+
+    .bg-header {
+      background-image: linear-gradient(to bottom, rgba(245, 246, 252, 0.4), white), url('assets/image/mosque.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      padding: 4rem 1rem;
+      text-align: center;
+    }
+
+    .bg-header h1, .bg-header p {
+      color: #146b55;
+    }
+
+    .card {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      width: 500px;
+    }
+
+    .card-header {
+      background-color: #146b55;
+      color: white;
+      padding: 10px 15px;
+      font-weight: bold;
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+    }
+
+    .card-body {
+      padding: 15px;
+      height: 500px;
+      overflow-y: auto;
+    }
+
+    #map {
+      width: 100%;
+      height: 100%;
+      border-radius: 6px;
+    }
+
+    #fly {
+      margin-top: 10px;
+      background-color: red;
+      color: white;
+      padding: 5px 10px;
+      border: none;
+      border-radius: 5px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .legend {
+      margin-top: 10px;
+      padding: 10px;
+      background-color: white;
+      border-radius: 5px;
+      box-shadow: 0 1px 2px rgba(0,0,0,.2);
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <a class="navbar-brand" href="#">Pondok Pesantren Al-Munawwir</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+          <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Blog</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Header Section -->
+  <header class="bg-header">
+    <h1 class="fw-bolder">Lokasi Bangunan Pondok Pesantren Al-Munawwir</h1>
+    <p class="lead mb-0">Pondok Pesantren Al-Munawwir</p>
+  </header>
+
+  <!-- Page content -->
+  <div class="container my-4">
+    <div class="row justify-content-center gap-4">
+      <!-- Petunjuk -->
+      <div class="card">
+        <div class="card-header">Petunjuk</div>
+        <div class="card-body">
+          <p>1. Gunakan tombol zoom in <img src="assets/image/mosque.png" width="20px"> dan zoom out <img src="assets/image/mosque.png" width="20px"> untuk mengatur posisi peta.</p>
+          <p>2. Titik biru bertuliskan huruf "A" merupakan lokasi Anda.</p>
+          <p>3. Klik tombol <img src="assets/image/mosque.png" width="80px"> untuk menampilkan lokasi Pondok Pesantren Al-Munawwir.</p>
+          <p>4. Klik salah satu bangunan sebagai tujuan destinasi.</p>
+          <p>5. Rute ditampilkan sebagai garis biru pada peta.</p>
+        </div>
+      </div>
+
+      <!-- Peta -->
+      <div class="card">
+        <div class="card-body">
+          <div id="map"></div>
+          <button id="fly">Lokasi Pesantren</button>
+          <div class="legend">
+            <p><strong>Legenda:</strong></p>
+            <div><span style="display: inline-block; width: 20px; height: 20px; background-color: red; color: white; text-align: center; line-height: 20px; margin-right: 5px;">A</span> Asrama Putra</div>
+            <div><span style="display: inline-block; width: 20px; height: 20px; background-color: yellow; color: black; text-align: center; line-height: 20px; margin-right: 5px;">B</span> Asrama Putri</div>
+            <div><span style="display: inline-block; width: 20px; height: 20px; background-color: purple; color: white; text-align: center; line-height: 20px; margin-right: 5px;">C</span> Bangunan Umum</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="py-4 text-white text-center" style="background-color: #146b55;">
+    <div class="container">
+      <p class="m-0">&copy;Nur Ilafi QK - 117220056</p>
+    </div>
+  </footer>
+
+  <!-- Script Map -->
+  <script>
+    var map = L.map('map').setView([-7.82565, 110.361049], 17);
+    L.tileLayer('https://api.maptiler.com/maps/streets-v2/{z}/{x}/{y}.png?key=wwfm6m2zWHDEd9ptZled', {
+      attribution: '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>'
+    }).addTo(map);
+
+    // Fungsi untuk menentukan warna berdasarkan atribut "kategori"
+    function getColor(kategori) {
+      switch (kategori) {
+        case 'Asrama Putra': return 'red';
+        case 'Asrama Putri': return 'yellow';
+        case 'Bangunan Umum': return 'purple';
+        default: return '#cccccc';
+      }
+    }
+
+    // Tambahkan file GeoJSON Asrama Putra
+    fetch('assets/geojson/asrama_putra.geojson')
+      .then(response => response.json())
+      .then(data => {
+        L.geoJSON(data, {
+          style: function (feature) {
+            return {
+              fillColor: getColor(feature.properties.kategori),
+              weight: 2,
+              opacity: 1,
+              color: 'black',
+              dashArray: '3',
+              fillOpacity: 0.7
+            };
+          },
+          onEachFeature: function (feature, layer) {
+            layer.bindPopup('Zona: ' + feature.properties.kategori);
+          }
+        }).addTo(map);
+      });
+
+    // Tambahkan file GeoJSON Asrama Putri
+    fetch('assets/geojson/asrama_putri.geojson')
+      .then(response => response.json())
+      .then(data => {
+        L.geoJSON(data, {
+          style: function (feature) {
+            return {
+              fillColor: getColor(feature.properties.kategori),
+              weight: 2,
+              opacity: 1,
+              color: 'black',
+              dashArray: '3',
+              fillOpacity: 0.7
+            };
+          },
+          onEachFeature: function (feature, layer) {
+            layer.bindPopup('Zona: ' + feature.properties.kategori);
+          }
+        }).addTo(map);
+      });
+
+    // Tambahkan file GeoJSON Bangunan Umum
+    fetch('assets/geojson/bangunan_umum.geojson')
+      .then(response => response.json())
+      .then(data => {
+        L.geoJSON(data, {
+          style: function (feature) {
+            return {
+              fillColor: getColor(feature.properties.kategori),
+              weight: 2,
+              opacity: 1,
+              color: 'black',
+              dashArray: '3',
+              fillOpacity: 0.7
+            };
+          },
+          onEachFeature: function (feature, layer) {
+            layer.bindPopup('Zona: ' + feature.properties.kategori);
+          }
+        }).addTo(map);
+      });
+
+      // Tambahkan ikon lokasi pengguna (misalnya: titik A)
+var userIcon = L.icon({
+  iconUrl: 'assets/image/mosque.png',
+  iconSize: [32, 32],      
+  iconAnchor: [16, 32],     
+  popupAnchor: [0, -32]     
+});
+
+// Tambahkan marker ke peta
+var marker = L.marker([-7.82565, 110.361049], { icon: userIcon })
+  .addTo(map)
+  .bindPopup('Lokasi Anda<br><b>Pondok Pesantren Al-Munawwir</b>')
+  .openPopup();
+  
+
+  </script>
+</body>
+</html>
+ 
